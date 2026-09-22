@@ -14,12 +14,12 @@ from fleet.serializers import DriverSerializer, TripSerializer, VehicleSerialize
 class FleetStatsView(APIView):
 
     def get(self, request):
-        avg = Trip.objects.aggregate(avg_distance=avg("distance"))["avg_distance"]
+        avg = Trip.objects.aggregate(avg_distance=Avg("distance"))["avg_distance"]
 
-        six_months_ago = timezone().now() - timedelta(weeks=26)
+        six_months_ago = timezone.now() - timedelta(weeks=26)
         weekly_avg_distance = list(
             Trip.objects
-            .filter(start_time_gte_=six_months_ago, distance_isnull=False)
+            .filter(start_time__gte=six_months_ago, distance__isnull=False)
             .annotate(week=TruncWeek("start_time"))
             .values("week")
             .annotate(avg_distance=Avg("distance"))

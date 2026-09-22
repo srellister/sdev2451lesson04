@@ -1,18 +1,59 @@
-import TripList from '../components/TripList'
-import { useTrips } from '../hooks/useTrips'
+import StatCard from "../components/StatCard";
+// import AverageDistanceChart from "../components/AverageDistanceChart";
+import TripList from "../components/TripList";
+import { useTrips } from "../hooks/useTrips";
+import { useStats } from "../hooks/useStats";
+
+const STAT_CARDS = [
+  {
+    key: "total_vehicles",
+    label: "Total Vehicles",
+    color: "bg-primary text-primary-content",
+  },
+  {
+    key: "total_drivers",
+    label: "Total Drivers",
+    color: "bg-secondary text-secondary-content",
+  },
+  {
+    key: "total_trips",
+    label: "Total Trips",
+    color: "bg-accent text-accent-content",
+  },
+  {
+    key: "avg_trip_distance",
+    label: "Average Trip Distance",
+    color: "bg-neutral text-neutral-content",
+  },
+];
 
 function TripsPage() {
-  const { trips, isLoading } = useTrips()
+  const { trips, isLoading } = useTrips();
+  const { stats } = useStats();
 
   return (
-    <div>
+    <div className="flex flex-col gap">
+      <div className="grid grid-cols-1 sm:gri-col-2 lg:grid-cols-4 gap-4">
+        {STAT_CARDS.map(({ key, label, color }) => (
+          <StatCard
+            key={key}
+            label={label}
+            value={stats?.[key]}
+            color={color}
+          />
+        ))}
+      </div>
+
+      {}
+
       <h2 className="text-xl font-semibold mb-3">Trips</h2>
-      {isLoading
-        ? <span className="loading loading-spinner loading-md" />
-        : <TripList trips={trips} />
-      }
+      {isLoading ? (
+        <span className="loading loading-spinner loading-md" />
+      ) : (
+        <TripList trips={trips} />
+      )}
     </div>
-  )
+  );
 }
 
-export default TripsPage
+export default TripsPage;
