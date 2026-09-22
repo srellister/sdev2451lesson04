@@ -1,5 +1,5 @@
 import StatCard from "../components/StatCard";
-// import AverageDistanceChart from "../components/AverageDistanceChart";
+import AverageDistanceChart from "../components/AverageDistanceChart";
 import TripList from "../components/TripList";
 import { useTrips } from "../hooks/useTrips";
 import { useStats } from "../hooks/useStats";
@@ -32,8 +32,8 @@ function TripsPage() {
   const { stats } = useStats();
 
   return (
-    <div className="flex flex-col gap">
-      <div className="grid grid-cols-1 sm:gri-col-2 lg:grid-cols-4 gap-4">
+    <div className="flex flex-col gap-6">
+      <div className="grid grid-cols-1 sm:grid-col-2 lg:grid-cols-4 gap-4">
         {STAT_CARDS.map(({ key, label, color }) => (
           <StatCard
             key={key}
@@ -44,7 +44,9 @@ function TripsPage() {
         ))}
       </div>
 
-      {}
+      {stats?.avg_distance_per_week?.length > 0 && (
+        <AverageDistanceChart data={stats.avg_distance_per_week} />
+      )}
 
       <h2 className="text-xl font-semibold mb-3">Trips</h2>
       {isLoading ? (

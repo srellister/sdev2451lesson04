@@ -32,7 +32,7 @@ class FleetStatsView(APIView):
             "total_drivers": Driver.objects.count(),
             "total_trips": Trip.objects.count(),
             "avg_trip_distance": round(avg, 2) if avg is not None else None,
-            "avg_disance_per_week": [{
+            "avg_distance_per_week": [{
                 "week": week.strftime("%Y-%m-%d"),
                 "avg_distance": round(float(avg_dist), 2),
             }
